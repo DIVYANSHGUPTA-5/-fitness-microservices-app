@@ -1,0 +1,29 @@
+microservice project things learned:
+-Eureka server : helps rest clients to talk more accuratly
+used when :
+Multiple instances of services exist
+
+Ports change dynamically
+
+Services scale up/down
+
+You want load balancing
+
+-Rest Clients: one microservice send http to other and get response  // used web client in our project
+
+-RabbitMQ: helps to archive asynchronous while sending request , its has queue type ds where sender request are stored and then the service that sends response picks request from queue and resolve it , it dont make things fast just dont let your system crash and make website more scalable
+
+-GeminiIntegration;
+ , 
+-ConfigServer : to mange configuration(yml file) of all microservice at one place ,http://localhost:8888/user-service/default,optional:configserver:http://localhost:8888
+
+-Gateway: 
+
+-keyclock: Keycloak is an open-source identity and access management tool that handles login, authentication, and authorization for applications.
+
+-problems before oauth2- ex: when user have to provide his gmail username and password to third party to access his gmail ,
+security risk,
+limited control,
+inconvenience
+
+-Oauth - is a standard protocol that allows user to grant third-party applications access to their information without sharing their passwords
