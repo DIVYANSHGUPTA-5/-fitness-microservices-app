@@ -2,9 +2,9 @@ server:
   port: 8081
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/fitness_user_db}
-    username: ${DATABASE_USERNAME:divyansh}
-    password: ${DATABASE_PASSWORD:postgres}
+    url: jdbc:postgresql://localhost:5432/fitness_user_db
+    username: divyansh
+    password: postgres
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -13,8 +13,8 @@ spring:
     show-sql: true
 eureka:
   instance:
-    hostname: ${RENDER_SERVICE_NAME:localhost}
+    hostname: localhost
     prefer-ip-address: false
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+      defaultZone: http://localhost:8761/eureka/
