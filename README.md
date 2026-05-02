@@ -1,29 +1,66 @@
-# Fitness Microservices App
+# 🏋️ Fitness Microservices App
 
-Full-stack microservices project using Spring Boot and React.
+A full-stack microservices-based fitness tracking application built using **Spring Boot + React** with modern cloud architecture.
 
-## Services
-- Gateway (API Gateway)
-- Eureka (Service Discovery)
-- Config Server
-- Activity Service
-- User Service
-- AI Service
-- Frontend (React + Vite)
+---
 
-## Tech Stack
-- Java + Spring Boot
-- Spring Cloud (Gateway, Eureka, Config)
-- MongoDB
-- RabbitMQ
-- React + MUI
+## 🚀 Architecture Overview
 
-## How to Run
+- API Gateway (Spring Cloud Gateway)
+- Service Discovery (Eureka)
+- Config Server (Centralized configuration)
+- Microservices:
+   - Activity Service
+   - User Service
+   - AI Recommendation Service
+- Messaging: RabbitMQ
+- Database: MongoDB
+- Frontend: React + Vite + MUI
 
-1. Start Config Server (8888)
-2. Start Eureka (8761)
-3. Start Gateway (8080)
-4. Start all services
-5. Start frontend:
-   ```bash
-   npm run dev
+---
+
+## 🔁 Request Flow
+
+Frontend → Gateway → Eureka → Microservice → Database / RabbitMQ → AI Service → Response
+
+---
+
+## 🧩 Services Description
+
+### 🔹 Gateway
+- Routes all incoming requests
+- Handles authentication (Keycloak/JWT)
+
+### 🔹 Eureka
+- Service registry for all microservices
+
+### 🔹 Config Server
+- Centralized configuration management
+
+### 🔹 Activity Service
+- Tracks workouts (type, duration, calories)
+
+### 🔹 User Service
+- Handles user registration and data
+
+### 🔹 AI Service
+- Consumes activity data via RabbitMQ
+- Generates recommendations using AI
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Technology |
+|-------------|-----------|
+| Backend     | Spring Boot, Spring Cloud |
+| Frontend    | React, Vite, Material UI |
+| Messaging   | RabbitMQ |
+| Database    | MongoDB |
+| Auth        | Keycloak (JWT) |
+
+---
+
+## ▶️ How to Run
+
+### 1. Start Config Server
