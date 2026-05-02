@@ -1,106 +1,190 @@
+#services:
+#  # 1. Eureka Server (Service Discovery)
+#  - type: pserv
+#    name: eureka-server
+#    env: docker
+#    dockerContext: eureka
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: eureka-server
+#
+#  # 2. Config Server
+#  - type: pserv
+#    name: config-server
+#    env: docker
+#    dockerContext: configserver
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: config-server
+#      - key: EUREKA_SERVER_URL
+#        value: http://eureka-server:8761/eureka/
+#
+#  # 3. API Gateway (Publicly accessible)
+#  - type: web
+#    name: api-gateway
+#    env: docker
+#    dockerContext: gateway
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: api-gateway
+#      - key: CONFIG_SERVER_URL
+#        value: http://config-server:8888
+#      - key: EUREKA_SERVER_URL
+#        value: http://eureka-server:8761/eureka/
+#
+#  # 4. User Service
+#  - type: pserv
+#    name: user-service
+#    env: docker
+#    dockerContext: userservice
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: user-service
+#      - key: CONFIG_SERVER_URL
+#        value: http://config-server:8888
+#      - key: EUREKA_SERVER_URL
+#        value: http://eureka-server:8761/eureka/
+#      - key: DATABASE_URL
+#        fromDatabase:
+#          name: fitness-user-db
+#          property: connectionString
+#
+#  # 5. Activity Service
+#  - type: pserv
+#    name: activity-service
+#    env: docker
+#    dockerContext: activityservice
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: activity-service
+#      - key: CONFIG_SERVER_URL
+#        value: http://config-server:8888
+#      - key: EUREKA_SERVER_URL
+#        value: http://eureka-server:8761/eureka/
+#      # MongoDB URI will need to be provided by user (e.g. from Atlas)
+#      - key: MONGODB_URI
+#        sync: false
+#
+#  # 6. AI Service
+#  - type: pserv
+#    name: ai-service
+#    env: docker
+#    dockerContext: aiservice
+#    plan: standard
+#    envVars:
+#      - key: RENDER_SERVICE_NAME
+#        value: ai-service
+#      - key: CONFIG_SERVER_URL
+#        value: http://config-server:8888
+#      - key: EUREKA_SERVER_URL
+#        value: http://eureka-server:8761/eureka/
+#      - key: GEMINI_API_KEY
+#        sync: false
+#
+#  # 7. Frontend (Static Site)
+#  - type: web
+#    name: fitness-app-frontend
+#    env: docker
+#    dockerContext: fitness-app-frontend
+#    plan: standard
+#    envVars:
+#      - key: VITE_API_GATEWAY_URL
+#        fromService:
+#          name: api-gateway
+#          type: web
+#          property: host
+#
+#databases:
+#  - name: fitness-user-db
+#    databaseName: fitness_user_db
+#    user: divyansh
+#    plan: standard
+
+
+
+
+
+# thus is not deploying on render as due to few things it is  not coming under free tier so down written file is for free
+
+
 services:
-  # 1. Eureka Server (Service Discovery)
-  - type: pserv
+  # Eureka Server
+  - type: web
     name: eureka-server
     env: docker
     dockerContext: eureka
-    plan: standard
-    envVars:
-      - key: RENDER_SERVICE_NAME
-        value: eureka-server
+    plan: free
 
-  # 2. Config Server
-  - type: pserv
+  # Config Server
+  - type: web
     name: config-server
     env: docker
     dockerContext: configserver
-    plan: standard
+    plan: free
     envVars:
-      - key: RENDER_SERVICE_NAME
-        value: config-server
       - key: EUREKA_SERVER_URL
-        value: http://eureka-server:8761/eureka/
+        value: https://eureka-server.onrender.com/eureka/
 
-  # 3. API Gateway (Publicly accessible)
+  # API Gateway (public)
   - type: web
     name: api-gateway
     env: docker
     dockerContext: gateway
-    plan: standard
+    plan: free
     envVars:
-      - key: RENDER_SERVICE_NAME
-        value: api-gateway
       - key: CONFIG_SERVER_URL
-        value: http://config-server:8888
+        value: https://config-server.onrender.com
       - key: EUREKA_SERVER_URL
-        value: http://eureka-server:8761/eureka/
+        value: https://eureka-server.onrender.com/eureka/
 
-  # 4. User Service
-  - type: pserv
+  # User Service
+  - type: web
     name: user-service
     env: docker
     dockerContext: userservice
-    plan: standard
+    plan: free
     envVars:
-      - key: RENDER_SERVICE_NAME
-        value: user-service
       - key: CONFIG_SERVER_URL
-        value: http://config-server:8888
+        value: https://config-server.onrender.com
       - key: EUREKA_SERVER_URL
-        value: http://eureka-server:8761/eureka/
-      - key: DATABASE_URL
-        fromDatabase:
-          name: fitness-user-db
-          property: connectionString
+        value: https://eureka-server.onrender.com/eureka/
 
-  # 5. Activity Service
-  - type: pserv
+  # Activity Service
+  - type: web
     name: activity-service
     env: docker
     dockerContext: activityservice
-    plan: standard
+    plan: free
     envVars:
-      - key: RENDER_SERVICE_NAME
-        value: activity-service
       - key: CONFIG_SERVER_URL
-        value: http://config-server:8888
+        value: https://config-server.onrender.com
       - key: EUREKA_SERVER_URL
-        value: http://eureka-server:8761/eureka/
-      # MongoDB URI will need to be provided by user (e.g. from Atlas)
+        value: https://eureka-server.onrender.com/eureka/
       - key: MONGODB_URI
         sync: false
 
-  # 6. AI Service
-  - type: pserv
+  # AI Service
+  - type: web
     name: ai-service
     env: docker
     dockerContext: aiservice
-    plan: standard
+    plan: free
     envVars:
-      - key: RENDER_SERVICE_NAME
-        value: ai-service
       - key: CONFIG_SERVER_URL
-        value: http://config-server:8888
+        value: https://config-server.onrender.com
       - key: EUREKA_SERVER_URL
-        value: http://eureka-server:8761/eureka/
+        value: https://eureka-server.onrender.com/eureka/
       - key: GEMINI_API_KEY
         sync: false
 
-  # 7. Frontend (Static Site)
+  # Frontend
   - type: web
     name: fitness-app-frontend
     env: docker
     dockerContext: fitness-app-frontend
-    plan: standard
-    envVars:
-      - key: VITE_API_GATEWAY_URL
-        fromService:
-          name: api-gateway
-          type: web
-          property: host
-
-databases:
-  - name: fitness-user-db
-    databaseName: fitness_user_db
-    user: divyansh
-    plan: standard
+    plan: free
