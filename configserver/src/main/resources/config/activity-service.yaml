@@ -3,20 +3,20 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/fitnessactivity
-      database: fitnessactivity
-  rabbitMq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+      uri: ${MONGODB_URI:mongodb://localhost:27017/fitnessactivity}
+      database: ${MONGODB_DATABASE:fitnessactivity}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${RENDER_SERVICE_NAME:localhost}
     prefer-ip-address: false
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
 rabbitmq:
   exchange:
     name: fitness.exchange
