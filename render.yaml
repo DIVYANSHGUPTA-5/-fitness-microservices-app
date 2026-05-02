@@ -44,7 +44,7 @@ services:
       - key: EUREKA_SERVER_URL
         value: http://eureka-server:10000/eureka/
       - key: SPRING_CLOUD_CONFIG_FAIL_FAST
-        value: "true"
+        value: "false"
 
   # 4. User Service
   - type: web
@@ -63,11 +63,18 @@ services:
       - key: EUREKA_SERVER_URL
         value: http://eureka-server:10000/eureka/
       - key: SPRING_CLOUD_CONFIG_FAIL_FAST
-        value: "true"
-      - key: DATABASE_URL
+        value: "false"
+      # Provide DB config directly to bypass config server during cold start
+      - key: SPRING_DATASOURCE_URL
         fromDatabase:
           name: fitness-user-db
           property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        value: divyansh
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: postgres
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
 
   # 5. Activity Service
   - type: web
@@ -86,9 +93,9 @@ services:
       - key: EUREKA_SERVER_URL
         value: http://eureka-server:10000/eureka/
       - key: SPRING_CLOUD_CONFIG_FAIL_FAST
-        value: "true"
-      - key: MONGODB_URI
-        sync: false
+        value: "false"
+      - key: SPRING_DATA_MONGODB_URI
+        sync: false # Provide your Atlas URI here
 
   # 6. AI Service
   - type: web
@@ -107,7 +114,7 @@ services:
       - key: EUREKA_SERVER_URL
         value: http://eureka-server:10000/eureka/
       - key: SPRING_CLOUD_CONFIG_FAIL_FAST
-        value: "true"
+        value: "false"
       - key: GEMINI_API_KEY
         sync: false
 
