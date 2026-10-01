@@ -78,6 +78,24 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<profiles>
+		<!-- Netty's default DNS resolver fails on macOS when /etc/resolv.conf lists an IPv6 link-local
+		     nameserver with a zone id (fe80::...%en0). The native macOS resolver avoids that. -->
+		<profile>
+			<id>macos-aarch64</id>
+			<activation>
+				<os><family>mac</family><arch>aarch64</arch></os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>io.netty</groupId>
+					<artifactId>netty-resolver-dns-native-macos</artifactId>
+					<classifier>osx-aarch_64</classifier>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>

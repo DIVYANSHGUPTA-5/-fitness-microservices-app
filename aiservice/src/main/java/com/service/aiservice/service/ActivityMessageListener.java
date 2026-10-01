@@ -15,12 +15,27 @@ public class ActivityMessageListener {
 
     private final ActivityAIService aiService;
     private final RecommendationRepository recommendationRepository;
+
     @RabbitListener(queues = "activity.queue")
-    public void processActivity(Activity activity)
-    {
-        log.info("Received activity for processing:{}",activity.getId());
-        //log.info("Generated Recommendation:{}",aiService.generateRecommendation(activity));
-        Recommendation recommendation = aiService.generateRecommendation(activity);
-        recommendationRepository.save(recommendation);
+    public void processActivity(Activity activity) {
+
+        log.info("Received activity for processing: {}", activity.getId());
+
+        try {
+            // Generate recommendation using Gemini
+            Recommendation recommendation = aiService.generateRecommendation(activity);
+
+            log.info("Saving recommendation for activity: {}", recommendation.getActivityId());
+
+            // Save to MongoDB
+            Recommendation savedRecommendation = recommendationRepository.save(recommendation);
+
+            log.info("Recommendation saved successfully.");
+            log.info("Saved MongoDB ID: {}", savedRecommendation.getId());
+            log.info("Saved Activity ID: {}", savedRecommendation.getActivityId());
+
+        } catch (Exception e) {
+            log.error("Failed to process activity {}", activity.getId(), e);
+        }
     }
 }

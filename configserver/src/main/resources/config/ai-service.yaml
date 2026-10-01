@@ -3,8 +3,8 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/fitnessrecommendation
-      database: fitnessrecommendation
+      uri: mongodb://localhost:27017/fitnessrecommendations
+      database: fitnessrecommendations
   rabbitMq:
     host: localhost
     port: 5672
@@ -28,5 +28,9 @@ rabbitmq:
 
 gemini:
   api:
-    url: ${GEMINI_API_URL:https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=}
+    # GEMINI_MODEL changes just the model; GEMINI_API_URL overrides the whole URL (must end with "?key=")
+    url: ${GEMINI_API_URL:https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL:gemini-3.8-flash}:generateContent?key=}
     key: ${GEMINI_API_KEY:default_dummy_key}
+    # tried in order when the model above cannot be used with the key; comma separated.
+    # (Google now limits the 2.5 models to accounts that already used them, so 2.5 is only the last resort.)
+    fallback-models: ${GEMINI_FALLBACK_MODELS:gemini-3.5-flash,gemini-2.5-flash}

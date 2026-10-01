@@ -8,17 +8,12 @@ const ActivityList = () => {
   const [activities , setActivities] = useState([]);
   const navigate = useNavigate();
 
-  const fetchActivities = async () => {
-    try {
-      const response = await getActivites();
-      setActivities(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => { 
-    fetchActivities();
+  useEffect(() => {
+    let cancelled = false;
+    getActivites()
+      .then((response) => { if (!cancelled) setActivities(response.data); })
+      .catch((error) => console.error(error));
+    return () => { cancelled = true; };
   }, []);
 
   return (

@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "react-oauth2-code-pkce";
-import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router";
 import { setCredentials } from "./store/authSlice";
 import ActivityForm from "./components/ActivityForm";
 import ActivityList from "./components/ActivityList";
@@ -16,14 +16,15 @@ const ActvitiesPage = () => {
 }
 
 function App() {
-  const { token, tokenData, logIn, logOut, isAuthenticated } = useContext(AuthContext);
+  const { token, tokenData, logIn, logOut } = useContext(AuthContext);
   const dispatch = useDispatch();
-  const [authReady, setAuthReady] = useState(false);
-  
+  const storedToken = useSelector((state) => state.auth.token);
+  // the store (and localStorage, written by the reducer) holds the current token only after the effect below has run
+  const authReady = !!token && storedToken === token;
+
   useEffect(() => {
     if (token) {
       dispatch(setCredentials({token, user: tokenData}));
-      setAuthReady(true);
     }
   }, [token, tokenData, dispatch]);
 
@@ -64,12 +65,15 @@ function App() {
                  <Button variant="contained" color="secondary" onClick={logOut}>
                   Logout
                 </Button>
+              {/* wait until the token/userId are in localStorage, otherwise the first API calls go out unauthenticated */}
+              {authReady && (
               <Routes>
                 <Route path="/activities" element={<ActvitiesPage />}/>
                 <Route path="/activities/:id" element={<ActivityDetail />}/>
 
                 <Route path="/" element={token ? <Navigate to="/activities" replace/> : <div>Welcome! Please Login.</div>} />
               </Routes>
+              )}
             </Box>
             )}
     </Router>

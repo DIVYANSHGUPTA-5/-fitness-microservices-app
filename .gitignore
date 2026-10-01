@@ -17,3 +17,5 @@ build/
 
 # Env
 .env
+# Stray lockfile created by running npm in the repo root (the real one is in fitness-app-frontend/)
+/package-lock.json
